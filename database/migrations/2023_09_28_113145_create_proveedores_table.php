@@ -12,28 +12,26 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('proveedores', function (Blueprint $table) {
-            $table->id();
-
+            $table->bigIncrements('id');
             $table->integer('codproveedor')->nullable();
-            $table->integer('idempresa')->nullable();
-
-            $table->string('NIF',10)->nullable();
-            $table->string('Nombre',100)->nullable();
-            $table->string('Domicilio',100)->nullable();
-            $table->string('Localidad',100)->nullable();
-            $table->string('Codpostal',5)->nullable();
-            $table->string('Provincia',100)->nullable();
-            $table->string('telefono1',20)->nullable();
-            $table->string('telefono2',20)->nullable();
-            $table->string('Fax',20)->nullable();
-            $table->string('NroCuenta',20)->nullable();
-            $table->string('web',50)->nullable();
-            $table->string('email',100)->nullable();
-            $table->string('Observaciones',50)->nullable();
-            $table->string('rowid',50)->nullable();
-            $table->string('contacto',50)->nullable();
-            $table->string('personacontacto',50)->nullable();
-            $table->string('cuentacont',50)->nullable();
+            $table->string('nif', 10)->nullable();
+            $table->string('nombre', 100)->nullable();
+            $table->string('domicilio', 100)->nullable();
+            $table->string('localidad', 100)->nullable();
+            $table->string('codpostal', 5)->nullable();
+            $table->string('provincia', 100)->nullable();
+            $table->string('telefono1', 20)->nullable();
+            $table->string('telefono2', 20)->nullable();
+            $table->string('fax', 20)->nullable();
+            $table->string('nrocuenta', 20)->nullable();
+            $table->string('web', 50)->nullable();
+            $table->string('email', 100)->nullable();
+            $table->string('observaciones', 50)->nullable();
+            $table->string('rowid', 50)->nullable();
+            $table->string('contacto', 50)->nullable();
+            $table->string('personacontacto', 50)->nullable();
+            $table->string('cuentacont', 20)->nullable();
+            $table->integer('idempresa');
 
             $table->timestamps();
         });
