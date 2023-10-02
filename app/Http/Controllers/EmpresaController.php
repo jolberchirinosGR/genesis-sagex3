@@ -14,7 +14,7 @@ class EmpresaController extends BaseController
     public function index()
     {
         $empresas = Empresa::all();
-        return $this->sendResponse($empresas, 'Empresas encontrados exitosamente.');
+        return $this->sendResponse($empresas, 'Empresas encontrados exitosamente');
     }
 
     /**
@@ -54,7 +54,7 @@ class EmpresaController extends BaseController
         $empresa = new Empresa($request->all());
         $empresa->save();
 
-        return $this->sendResponse($empresa, 'Empresa creado exitosamente.');
+        return $this->sendResponse($empresa, 'Empresa creado exitosamente');
     }
 
     /**
@@ -88,7 +88,7 @@ class EmpresaController extends BaseController
 
         $empresa->update($request->all());
 
-        return $this->sendResponse($empresa, 'Empresa actualizado exitosamente.');
+        return $this->sendResponse($empresa, 'Empresa actualizado exitosamente');
     }
 
     /**
@@ -99,17 +99,11 @@ class EmpresaController extends BaseController
         $empresa = Empresa::find($id);
 
         if (!$empresa) {
-            return response()->json([
-                "code" => 404,
-                "message" => "Empresa no encontrado",
-            ], 404);
+            return $this->sendError('Validation Error.', 'Empresa no econtrado');
         }
 
         $empresa->delete();
 
-        return response()->json([
-            "code" => 200,
-            "message" => "Empresa eliminado exitosamente",
-        ]);
+        return $this->sendResponse(null, 'Empresa Eliminada exitosamente');
     }
 }

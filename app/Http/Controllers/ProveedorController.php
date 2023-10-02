@@ -15,7 +15,7 @@ class ProveedorController extends BaseController
     public function index()
     {
         $proveedores = Proveedor::all();
-        return $this->sendResponse($proveedores, 'Proveedores encontrados exitosamente.');
+        return $this->sendResponse($proveedores, 'Proveedores encontrados exitosamente');
     }
 
     /**
@@ -29,7 +29,7 @@ class ProveedorController extends BaseController
             return $this->sendError('Validation Error.', 'Proveedor no encontrado');
         }
 
-        return $this->sendResponse($proveedor, 'Proveedor encontrado exitosamente.');
+        return $this->sendResponse($proveedor, 'Proveedor encontrado exitosamente');
     }
 
     public function store(Request $request)
@@ -60,7 +60,7 @@ class ProveedorController extends BaseController
 
         if (!$empresa) {
             $validator = Validator::make([], []);
-            $validator->errors()->add('idempresa', 'Empresa no encontrada.');
+            $validator->errors()->add('idempresa', 'Empresa no encontrada');
 
             return $this->sendError('Validation Error.', $validator->errors());
         }
@@ -72,7 +72,7 @@ class ProveedorController extends BaseController
         $proveedor = new Proveedor($request->all());
         $proveedor->save();
 
-        return $this->sendResponse($proveedor, 'Proveedor creado exitosamente.');
+        return $this->sendResponse($proveedor, 'Proveedor creado exitosamente');
     }
 
     /**
@@ -102,11 +102,20 @@ class ProveedorController extends BaseController
             'cuentacont' => 'nullable|string|max:50',
         ]);
 
+        $empresa = Empresa::where('idempresa', $request->idempresa)->first();
+
+        $proveedor = Proveedor::find($id);
+
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $proveedor = Proveedor::find($id);
+        if (!$empresa) {
+            $validator = Validator::make([], []);
+            $validator->errors()->add('idempresa', 'Empresa no encontrada');
+
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
 
         if (!$proveedor) {
             return $this->sendError('Validation Error.', 'Proveedor no econtrado');
@@ -114,7 +123,7 @@ class ProveedorController extends BaseController
 
         $proveedor->update($request->all());
 
-        return $this->sendResponse($proveedor, 'Proveedor actualizado exitosamente.');
+        return $this->sendResponse($proveedor->refresh(), 'Proveedor actualizado exitosamente');
     }
 
     /**
@@ -125,17 +134,11 @@ class ProveedorController extends BaseController
         $proveedor = Proveedor::find($id);
 
         if (!$proveedor) {
-            return response()->json([
-                "code" => 404,
-                "message" => "Proveedor no encontrado",
-            ], 404);
+            return $this->sendError('Validation Error.', 'Proveedor no econtrado');
         }
 
         $proveedor->delete();
 
-        return response()->json([
-            "code" => 200,
-            "message" => "Proveedor eliminado exitosamente",
-        ]);
+        return $this->sendResponse($proveedor, 'Proveedor eliminado exitosamente');
     }
 }
