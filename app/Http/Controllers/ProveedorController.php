@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\BaseController as BaseController;
-use App\Http\Requests\ProveedorRequest;
+use App\Models\Empresa;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
-
-use Validator;
+use Illuminate\Support\Facades\Validator;
 class ProveedorController extends BaseController
 {
     /**
@@ -36,7 +35,7 @@ class ProveedorController extends BaseController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'idempresa' => 'required|integer',
+            'idempresa' => 'nullable|integer',
             'codproveedor' => 'nullable|integer',
             'nif' => 'nullable|string|max:10',
             'nombre' => 'nullable|string|max:100',
@@ -57,6 +56,15 @@ class ProveedorController extends BaseController
             'cuentacont' => 'nullable|string|max:50',
         ]);
 
+        $empresa = Empresa::where('idempresa', $request->idempresa)->first();
+
+        if (!$empresa) {
+            $validator = Validator::make([], []);
+            $validator->errors()->add('idempresa', 'Empresa no encontrada.');
+
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
@@ -73,7 +81,7 @@ class ProveedorController extends BaseController
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'idempresa' => 'required|integer',
+            'idempresa' => 'nullable|integer',
             'codproveedor' => 'nullable|integer',
             'nif' => 'nullable|string|max:10',
             'nombre' => 'nullable|string|max:100',

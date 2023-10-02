@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('contacto', 50)->nullable();
             $table->string('personacontacto', 50)->nullable();
             $table->string('cuentacont', 20)->nullable();
-            $table->integer('idempresa');
+            $table->integer('idempresa')->default(0);
 
             $table->timestamps();
         });

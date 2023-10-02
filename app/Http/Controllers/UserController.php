@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json(['data' => $users]);
+        return $this->sendResponse($users, 'Usuarios encontrados exitosamente.');
     }
 
     /**
@@ -30,7 +29,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $user = new User([
@@ -41,7 +40,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json(['data' => $user], 201);
+        return $this->sendResponse($user, 'Usuario creado exitosamente.');
     }
 
     /**
@@ -52,10 +51,10 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
+            return $this->sendError('Usuario no encontrado');
         }
 
-        return response()->json(['data' => $user]);
+        return $this->sendResponse($user, 'Usuario encontrado exitosamente.');
     }
 
     /**
@@ -69,7 +68,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $user = User::find($id);
@@ -85,7 +84,7 @@ class UserController extends Controller
         }
         $user->save();
 
-        return response()->json(['data' => $user]);
+        return $this->sendResponse($user, 'Usuario modificado exitosamente.');
     }
 
     /**
@@ -96,11 +95,11 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
+            return $this->sendError('Usuario no encontrado');
         }
 
         $user->delete();
 
-        return response()->json(['message' => 'Usuario eliminado correctamente']);
+        return $this->sendResponse(null, 'Usuario eliminado exitosamente.');
     }
 }

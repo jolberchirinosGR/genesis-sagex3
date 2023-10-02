@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
-
-use Validator;
+use Illuminate\Support\Facades\Validator;
 class EmpresaController extends BaseController
 {
     /**

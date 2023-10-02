@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->bigIncrements('id'); // Definir 'id' como clave primaria con auto-incremento
-            $table->string('empresa', 50);
-            $table->integer('mid');
-            $table->string('rowid', 50);
-            $table->string('razonsocial', 75);
-            $table->string('cif', 10);
-            $table->string('direccion', 30);
-            $table->string('poblacion', 30);
-            $table->string('codpostal', 10);
-            $table->string('provincia', 30);
-            $table->integer('idempresa');
+            $table->string('empresa', 50)->nullable()->default(null);
+            $table->integer('mid')->nullable()->default(null);
+            $table->string('rowid', 50)->nullable()->default(null);
+            $table->string('razonsocial', 75)->nullable()->default(null);
+            $table->binary('foto')->nullable()->default(null);
+            $table->string('cif', 10)->nullable()->default(null);
+            $table->string('direccion', 30)->nullable()->default(null);
+            $table->string('poblacion', 30)->nullable()->default(null);
+            $table->string('codpostal', 5)->nullable()->default(null);
+            $table->string('provincia', 30)->nullable()->default(null);
+            $table->integer('idempresa')->nullable()->default(null);
 
             $table->timestamps();
         });
